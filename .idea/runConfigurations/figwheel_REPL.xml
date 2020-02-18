@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="figwheel REPL" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
-    <module name="pilloxa-re-frame-demo" />
+    <module name="reagent-web-demo" />
     <setting name="replType" value="CLOJURE_MAIN" />
     <setting name="execution" value="LEININGEN" />
     <setting name="jvmArgs" value="" />
