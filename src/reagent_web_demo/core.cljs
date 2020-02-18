@@ -12,19 +12,19 @@
 (defonce app-db
   (reagent/atom
     {:date-range ["2019-06-01" "2019-06-02" "2019-06-03" "2019-06-04"]
-     :patients   {:patient-1 {:id           :patient-1
-                              :dose-history [(rand-int 100) (rand-int 100) (rand-int 100) (rand-int 100)]
-                              :color        "rgb(255, 0, 0)"
-                              :selected?    true}
-                  :patient-2 {:id           :patient-2
-                              :dose-history [92 93 95 95]
-                              :color        "rgb(0, 0, 255)"
-                              :selected?    true}}}))
+     :patients   [{:id           :patient-1
+                   :dose-history [(rand-int 100) (rand-int 100) (rand-int 100) (rand-int 100)]
+                   :color        "rgb(255, 0, 0)"
+                   :selected?    true}
+                  {:id           :patient-2
+                   :dose-history [92 93 95 95]
+                   :color        "rgb(0, 0, 255)"
+                   :selected?    true}]}))
 
 ;; db fns
 
 (defn get-patients [db]
-  (vals (:patients db)))
+  (:patients db))
 
 (defn get-selected-patients [db]
   (->> db
@@ -35,7 +35,13 @@
   (:date-range db))
 
 (defn toggle-select [patient-id]
-  (swap! app-db update-in [:patients patient-id :selected?] not))
+  (swap! app-db update :patients
+         (fn [patients]
+           (mapv (fn [{:keys [id] :as patient}]
+                   (if (= id patient-id)
+                     (update patient :selected? not)
+                     patient))
+                 patients))))
 
 ;; components
 
